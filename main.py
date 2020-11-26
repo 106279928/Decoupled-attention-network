@@ -9,8 +9,9 @@ from torch.utils.data import Dataset, DataLoader
 import datetime
 #------------------------
 from utils import *
-import cfgs_hw as cfgs
+import cfgs_ic as cfgs
 #------------------------
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 def display_cfgs(models):
     print('global_cfgs')
     cfgs.showcfgs(cfgs.global_cfgs)
@@ -67,15 +68,15 @@ def load_network():
     model_dtd = cfgs.net_cfgs['DTD'](**cfgs.net_cfgs['DTD_args'])
 
     if cfgs.net_cfgs['init_state_dict_fe'] != None:
-        model_fe.load_state_dict(torch.load(cfgs.net_cfgs['init_state_dict_fe']))
+        model_fe.load_state_dict(torch.load(cfgs.net_cfgs['init_state_dict_fe'], map_location=device))
     if cfgs.net_cfgs['init_state_dict_cam'] != None:
-        model_cam.load_state_dict(torch.load(cfgs.net_cfgs['init_state_dict_cam']))
+        model_cam.load_state_dict(torch.load(cfgs.net_cfgs['init_state_dict_cam'], map_location=device))
     if cfgs.net_cfgs['init_state_dict_dtd'] != None:
-        model_dtd.load_state_dict(torch.load(cfgs.net_cfgs['init_state_dict_dtd']))
+        model_dtd.load_state_dict(torch.load(cfgs.net_cfgs['init_state_dict_dtd'], map_location=device))
     
-    model_fe.cuda()
-    model_cam.cuda()
-    model_dtd.cuda()
+    model_fe.to(device)
+    model_cam.to(device)
+    model_dtd.to(device)
     return (model_fe, model_cam, model_dtd)
 #----------------------optimizer
 def generate_optimizer(models):
@@ -97,10 +98,10 @@ def test(test_loader, model, tools):
         label = sample_batched['label']
         target = tools[0].encode(label)
 
-        data = data.cuda()
+        data = data.to(device)
         target = target
         label_flatten, length = tools[1](target)
-        target, label_flatten = target.cuda(), label_flatten.cuda()
+        target, label_flatten = target.to(device), label_flatten.to(device)
 
         features= model[0](data)
         A = model[1](features)

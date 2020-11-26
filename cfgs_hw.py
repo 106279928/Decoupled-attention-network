@@ -21,9 +21,9 @@ dataset_cfgs = {
         'augment': True, # with the data augmentation toolkit
     },
     'dataloader_train': {
-        'batch_size': 24,
+        'batch_size': 1,
         'shuffle': True,
-        'num_workers': 2,
+        'num_workers': 0,
     },
 
     'dataset_test': IAMDataset,
