@@ -1,0 +1,49 @@
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# vscode
+.vscode
+
+# images
+*.jpg
+*.png
+*.jpeg
+
+# mac
+*.DS_Store
+
+# model files
+*.xml
+*.dat
+*.pb
+*.pbtxt
+*.weights
+*.pth
+*.pdmodel
+*.pdopt
+*.pdparams
+
+# model folder
+paper_weights/
+
+# archieves
+*.zip
+
+# logs
+*.log
+
+# misc
+playground/result/*
+playground/*.txt
+playground/*.jpeg
+playground/*.jpg
+playground/*.png
+
+# dataset
+dataset/
